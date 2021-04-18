@@ -28,14 +28,33 @@
       <li><a href="https://vue-loader.vuejs.org" target="_blank" rel="noopener">vue-loader</a></li>
       <li><a href="https://github.com/vuejs/awesome-vue" target="_blank" rel="noopener">awesome-vue</a></li>
     </ul>
+    <button v-on:click="attendance"> Click me!! </button>
   </div>
 </template>
 
 <script>
+
 export default {
   name: 'HelloWorld',
   props: {
     msg: String,
+  },
+  methods: {
+    attendance() {
+      const attendance = {
+        user_id: '1234',
+        time: new Date().toISOString(),
+        activity: 'bjj',
+        confirmed: false,
+      };
+
+      console.log('Estoy aqui!');
+      // Add a new document in'collection 'cities" with ID 'LA'
+      this.$firebase.firestore().collection('attendance')
+        .add(attendance)
+        .then((res) => console.log(res))
+        .catch((err) => console.error(err));
+    },
   },
 };
 </script>

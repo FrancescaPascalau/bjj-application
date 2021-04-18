@@ -8,5 +8,6 @@ Vue.prototype.$firebase = firebase;
 
 new Vue({
   router,
+  firebase,
   render: (h) => h(App),
 }).$mount('#app');
