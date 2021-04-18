@@ -1,0 +1,17 @@
+[debug] [2021-04-18T17:38:08.544Z] ----------------------------------------------------------------------
+[debug] [2021-04-18T17:38:08.546Z] Command:       /Users/pvaldesoiro/.nvm/versions/node/v14.16.1/bin/node /Users/pvaldesoiro/Projects/ForFun/bjj-attendance/node_modules/.bin/firebase serve
+[debug] [2021-04-18T17:38:08.546Z] CLI Version:   9.10.0
+[debug] [2021-04-18T17:38:08.546Z] Platform:      darwin
+[debug] [2021-04-18T17:38:08.546Z] Node Version:  v14.16.1
+[debug] [2021-04-18T17:38:08.548Z] Time:          Sun Apr 18 2021 19:38:08 GMT+0200 (Central European Summer Time)
+[debug] [2021-04-18T17:38:08.548Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2021-04-18T17:38:08.556Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2021-04-18T17:38:08.556Z] > authorizing via signed-in user (pvp917@gmail.com)
+[debug] [2021-04-18T17:38:08.556Z] [iam] checking project bjj-attendance-d782b for permissions ["firebase.projects.get"]
+[debug] [2021-04-18T17:38:08.558Z] > refreshing access token with scopes: ["email","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","openid"]
+[debug] [2021-04-18T17:38:08.559Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token  
+ <request body omitted>
+[debug] [2021-04-18T17:38:08.716Z] <<< HTTP RESPONSE 200 {"date":"Sun, 18 Apr 2021 17:38:08 GMT","cache-control":"no-cache, no-store, max-age=0, must-revalidate","expires":"Mon, 01 Jan 1990 00:00:00 GMT","pragma":"no-cache","content-type":"application/json; charset=utf-8","vary":"X-Origin, Referer, Origin,Accept-Encoding","server":"scaffolding on HTTPServer2","x-xss-protection":"0","x-frame-options":"SAMEORIGIN","x-content-type-options":"nosniff","alt-svc":"h3-29=\":443\"; ma=2592000,h3-T051=\":443\"; ma=2592000,h3-Q050=\":443\"; ma=2592000,h3-Q046=\":443\"; ma=2592000,h3-Q043=\":443\"; ma=2592000,quic=\":443\"; ma=2592000; v=\"46,43\"","accept-ranges":"none","transfer-encoding":"chunked"}
+[debug] [2021-04-18T17:38:08.745Z] >>> HTTP REQUEST POST https://cloudresourcemanager.googleapis.com/v1/projects/bjj-attendance-d782b:testIamPermissions  
+ {"permissions":["firebase.projects.get"]}
