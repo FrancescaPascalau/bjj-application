@@ -17,6 +17,7 @@
     "@firebase/app": "^0.6.20",
     "@firebase/auth": "^0.16.4",
     "@firebase/firestore": "^2.2.4",
+    "axios": "^0.21.1",
     "core-js": "^3.6.5",
     "vue": "^2.6.11",
     "vue-router": "^3.2.0"
