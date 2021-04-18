@@ -1,3 +1,4 @@
+import './assets/scss/_global.scss';
 import Vue from 'vue';
 import App from './App.vue';
 import router from './router';
