@@ -43,7 +43,7 @@ export default {
     attendance() {
       const attendance = {
         user_id: '1234',
-        time: new Date().toISOString(),
+        time: this.$firebase.firestore.Timestamp.fromDate(new Date()),
         activity: 'bjj',
         confirmed: false,
       };
