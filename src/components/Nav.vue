@@ -6,7 +6,7 @@
     <ul>
       <li><router-link to="/">Home</router-link></li>
       <li><router-link to="/attendances/new">Solicitud de Asistencias</router-link></li>
-      <li><router-link to="/members">Alumnos</router-link></li>
+      <li><router-link to="/users">Alumnos</router-link></li>
     </ul>
   </nav>
 </template>
