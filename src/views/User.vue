@@ -24,6 +24,21 @@
               Añadir
           </button>
         </form>
+    <div>
+      <table class="table">
+        <tr>
+          <th>Nombre</th>
+          <th>Apellidos</th>
+        </tr>
+        <tr v-for="user in users" :key="user.user_id">
+          <td>{{user.first_name}}</td>
+          <td>{{user.last_name}}</td>
+        </tr>
+      </table>
+      <button v-on:click="showAllUsers()">
+          Mostrar alumnos
+      </button>
+    </div>
   </div>
 </template>
 
@@ -39,6 +54,7 @@ export default {
       uuid: uuid.v4(),
       firstName: '',
       lastName: '',
+      users: [],
     };
   },
   components: {
@@ -63,6 +79,13 @@ export default {
     resetForm() {
       this.firstName = '';
       this.lastName = '';
+    },
+    showAllUsers() {
+      this.$firebase.firestore().collection('users')
+        .get()
+        .then((snapshot) => {
+          this.users = snapshot.docs.map((user) => user.data());
+        });
     },
   },
 };
