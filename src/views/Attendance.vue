@@ -1,32 +1,31 @@
 <template>
   <div class="attendance">
-      <Nav/>
-      <div class="new">
-        <v-select
-          :options="activities"
-          v-model="selectedActivity"
+    <Nav/>
+    <div class="new">
+      <v-select
+        :options="activities"
+        v-model="selectedActivity"
+        class="activities"
+      />
+      <div v-if="selectedActivity.sessions">
+        <date-picker
+          v-model="selectedDate"
+          :max-date='new Date()'
           class="activities"
         />
-        <div v-if="selectedActivity.sessions" >
-          <date-picker
-            v-model="selectedDate"
-            :max-date='new Date()'
-            class="activities"
-          />
-          <v-select
-            :options="selectedActivity.sessions[selectedDate.getDay()]"
-            v-if="selectedDate"
-            v-model="selectedHour"
-            class="activities"
-          />
-        </div>
-        <button
-          v-on:click="attendance(selectedActivity, selectedDate, selectedHour)"
-          class="submit"
-        >
-          Enviar
-        </button>
+        <v-select
+          :options="selectedActivity.sessions[selectedDate.getDay()]"
+          v-if="selectedDate"
+          v-model="selectedHour"
+          class="activities"
+        />
       </div>
+      <button
+        type="button" class="btn btn-outline-primary"
+        v-on:click="attendance(selectedActivity, selectedDate, selectedHour)">
+        Enviar
+      </button>
+    </div>
   </div>
 </template>
 
@@ -91,11 +90,13 @@ export default {
         user_id: '1234',
         time: this.$firebase.firestore.Timestamp.fromDate(new Date()),
         activity: selectedActivity.code,
-        session: `${selectedDate.toISOString().split('T')[0]} @ ${selectedHour}`,
+        session: `${selectedDate.toISOString()
+          .split('T')[0]} @ ${selectedHour}`,
         confirmed: false,
       };
 
-      this.$firebase.firestore().collection('attendance')
+      this.$firebase.firestore()
+        .collection('attendance')
         .add(attendance)
         .then((res) => console.log(res))
         .catch((err) => console.error(err));
@@ -104,5 +105,5 @@ export default {
 };
 </script>
 <style lang="scss">
-  @import '../assets/scss/_attendance.scss'
+@import '../assets/scss/_attendance.scss'
 </style>

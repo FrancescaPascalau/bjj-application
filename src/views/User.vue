@@ -1,42 +1,54 @@
 <template>
   <div class="users">
-      <Nav/>
-        <form class="form">
-          <p>Añadir nuevo alumno</p>
-          <input type="text"
-          placeholder="Nombre"
-          v-model="firstName"
-          class="text"
-          required/>
-          <input type="text"
-          placeholder="Apellidos"
-          v-model="lastName"
-          class="text"
-          required/>
-          <button v-on:click="resetForm()"
-            class="cancel">
-            Cancelar
-          </button>
-          <button
-            v-on:click="addUser(uuid, firstName, lastName)"
-            class="submit"
-          >
-              Añadir
-          </button>
-        </form>
-    <div>
-      <table class="table">
+    <Nav/>
+    <form class="form" @submit="addUser(uuid, firstName, lastName)" @reset="resetForm">
+      <p v-if="errorMessage" class="text-danger">{{ errorMessage }}</p>
+      <h4>Añadir nuevo alumno</h4>
+      <input type="text"
+             class="form-control"
+             placeholder="Nombre"
+             v-model="firstName"
+             required/>
+      <input type="text"
+             class="form-control"
+             placeholder="Apellidos"
+             v-model="lastName"
+             required/>
+      <button type="button"
+              class="btn btn-outline-primary"
+              v-on:click="resetForm()">
+        Cancelar
+      </button>
+      <button type="button"
+              class="btn btn-outline-primary"
+              v-on:click="addUser(uuid, firstName, lastName)">
+        Añadir
+      </button>
+    </form>
+    <div class="usersTable">
+      <table class="table table-hover">
+        <thead>
         <tr>
-          <th>Nombre</th>
-          <th>Apellidos</th>
+          <th scope="col">Nombre</th>
+          <th scope="col">Apellidos</th>
         </tr>
-        <tr v-for="user in users" :key="user.user_id">
-          <td>{{user.first_name}}</td>
-          <td>{{user.last_name}}</td>
+        </thead>
+        <tbody>
+        <tr scope="row" v-for="user in users" :key="user.user_id">
+          <td>{{ user.first_name }}</td>
+          <td>{{ user.last_name }}</td>
         </tr>
+        </tbody>
       </table>
-      <button v-on:click="showAllUsers()">
-          Mostrar alumnos
+      <button type="button" class="btn btn-outline-secondary"
+              v-on:click="showAllUsers()"
+              v-if="isActive">
+        Mostrar alumnos
+      </button>
+      <button type="button" class="btn btn-outline-secondary"
+              v-on:click="hideAllUsers()"
+              v-if="!isActive">
+        Ocultar alumnos
       </button>
     </div>
   </div>
@@ -54,7 +66,9 @@ export default {
       uuid: uuid.v4(),
       firstName: '',
       lastName: '',
+      errorMessage: '',
       users: [],
+      isActive: true,
     };
   },
   components: {
@@ -62,6 +76,7 @@ export default {
   },
   methods: {
     addUser(id, firstName, lastName) {
+      this.errorMessage = undefined;
       const user = {
         user_id: id,
         first_name: firstName,
@@ -69,27 +84,43 @@ export default {
         created_at: this.$firebase.firestore.Timestamp.fromDate(new Date()),
       };
 
-      if (user.first_name !== '' && user.last_name !== '') {
-        this.$firebase.firestore().collection('users')
-          .add(user)
-          .then((res) => console.log(res))
-          .catch((err) => console.error(err));
-      }
+      this.$firebase.firestore()
+        .collection('users')
+        .doc(`${firstName}-${lastName}`)
+        .get()
+        .then((snapshot) => snapshot.exists)
+        .then((exists) => {
+          if (!exists) {
+            this.$firebase.firestore()
+              .collection('users')
+              .doc(`${firstName}-${lastName}`)
+              .set(user)
+              .catch((err) => console.error(err));
+          } else {
+            this.errorMessage = 'Ya existe este usuario';
+          }
+        });
     },
     resetForm() {
       this.firstName = '';
       this.lastName = '';
     },
     showAllUsers() {
-      this.$firebase.firestore().collection('users')
+      this.$firebase.firestore()
+        .collection('users')
         .get()
         .then((snapshot) => {
           this.users = snapshot.docs.map((user) => user.data());
         });
+      this.isActive = false;
+    },
+    hideAllUsers() {
+      this.users = (user) => user.data();
+      this.isActive = true;
     },
   },
 };
 </script>
 <style lang="scss">
-  @import '../assets/scss/_users.scss'
+@import '../assets/scss/_users.scss';
 </style>
